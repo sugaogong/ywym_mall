@@ -1,0 +1,88 @@
+<form:select path="" class="input-medium">
+	<form:option value="" label=""/>
+	<form:options items="${一个Map}"   htmlEscape="true"/>
+</form:select>
+
+${fnc:getDictList('')}
+${fnc:getDictLabel(, '' ,'') }
+
+${fnc:getAllProvince()}
+${fnc:getCityMap(entity.cityId)}
+${fnc:getDistrictMap(entity.districtId)}
+
+${fnc:getProvinceName(entity.provinceId)}
+${fnc:getCityName(entity.cityId)}
+${fnc:getDistrictName(entity.districtId)}
+
+${fnc:getUploadPrefix()}
+
+enctype="multipart/form-data"
+
+notBlank()
+isDouble()
+isNaN()
+
+
+将json字符串转换成json对象 
+JSON.parse(jsonstr);
+
+将json对象转换成json对符串 
+JSON.stringify(jsonobj);
+
+
+$.ajax( {
+	url : "",
+	data : {},
+	type : "post",
+	dataType : "json",
+	success : function(data) {
+		
+	},error: function(XMLHttpRequest, textStatus, errorThrown) {
+		console.log("error : url");
+    }
+});
+
+
+inLoading("className")
+
+JSON.parse(jsonstr); //可以将json字符串转换成json对象 
+JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
+
+
+//对某个方法返回结果缓存，根据参数作为key缓存返回结果
+@Cacheable(value="set名称")
+
+//清空某个set的缓存数据
+//allEntries=false：只根据参数删除相应key-value；allEntries=true：清空整个set所有key-value，默认false
+//beforeInvocation=true：方法执行前先清空；beforeInvocation=false：方法执行后再清空，默认false
+@CacheEvict(value="set名称",allEntries=true,beforeInvocation=true)
+
+
+//文本框
+<!-- 控制宽度的自动适应 -->
+<style type="text/css">
+	.textBox {
+	 width:80%;/*自动适应父布局宽度*/
+	 overflow:auto;
+	 word-break:break-all;/*在ie中解决断行问题(防止自动变为在一行显示，主要解决ie兼容问题，ie8中当设宽度为100%时，文本域类容超过一行时，当我们双击文本内容就会自动变为一行显示，所以只能用ie的专有断行属性“word-break或word-wrap”控制其断行)*/
+	}
+</style>
+
+<form:textarea class="textBox" path="content" rows="10"></form:textarea>
+
+
+//富文本
+<script type="text/javascript" charset="utf-8" src="${ctxStatic }/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${ctxStatic }/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${ctxStatic }/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('message',{initialFrameWidth:1000,initialFrameHeight:500});
+</script>
+
+<form:textarea path="message"></form:textarea>
+
+//shiro权限
+<shiro:hasPermission name="ywym:user:user:view">
+</shiro:hasPermission>

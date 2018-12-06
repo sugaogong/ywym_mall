@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.dao.YwymUserDao">
+
+	<sql id="tableColumns">
+			a.id AS "id",
+		a.username AS "username",
+		a.gender AS "gender",
+		a.password AS "password",
+		a.phone AS "phone",
+		a.nickname AS "nickname",
+		a.head_img AS "headImg",
+		a.password_pay AS "passwordPay",
+		a.score AS "score",
+		a.total_get_score AS "totalGetScore",
+		a.total_use_score AS "totalUseScore",
+		a.open_id AS "openId",
+		a.union_id AS "unionId",
+		a.locked AS "locked",
+		a.login_status AS "loginStatus",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fromTable">
+		`ywym_user` a 
+	</sql>
+	
+	<select id="get" resultType="YwymUser">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_user` a 
+		WHERE a.id = #{id}
+	</select>
+
+
+    <select id="getForUpdate" resultType="YwymUser">
+        SELECT
+        <include refid="tableColumns"/>
+        FROM
+        `ywym_user` a
+        WHERE a.id = #{id} FOR UPDATE
+    </select>
+
+	
+	<select id="getBy" resultType="YwymUser">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_user` a 
+		WHERE a.${column} = #{value}
+	</select>
+	
+	<select id="fromTable" resultType="YwymUser">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_user` a ${sql }
+	</select>
+	
+	<select id="findListSQL" resultType="java.util.HashMap">
+		${sql }
+	</select>
+	
+    <select id="findList" resultType="YwymUser">
+        SELECT 
+	        <include refid="tableColumns"/>
+        FROM 
+        	<include refid="fromTable"/>
+        <where>
+        	<include refid="whereSQL"/>
+        </where>
+        <choose>
+			<when test="orderBy != null and orderBy != ''">
+				ORDER BY ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+        <if test="first != null and max != null">
+			LIMIT #{first},#{max}
+		</if>
+    </select>
+    
+    <sql id="whereSQL">
+		<if test="openIdLike != null and openIdLike != ''">
+			AND a.open_id LIKE CONCAT ('%', #{openIdLike}, '%'}
+		</if>
+		<if test="username != null and username != ''">
+    		AND a.username = #{username}
+    	</if>
+		<if test="gender != null ">
+    		AND a.gender = #{gender}
+    	</if>
+		<if test="password != null and password != ''">
+    		AND a.password = #{password}
+    	</if>
+		<if test="phone != null and phone != ''">
+    		AND a.phone = #{phone}
+    	</if>
+		<if test="nickname != null and nickname != ''">
+    		AND a.nickname = #{nickname}
+    	</if>
+		<if test="headImg != null and headImg != ''">
+    		AND a.head_img = #{headImg}
+    	</if>
+		<if test="passwordPay != null and passwordPay != ''">
+    		AND a.password_pay = #{passwordPay}
+    	</if>
+		<if test="score != null ">
+    		AND a.score = #{score}
+    	</if>
+		<if test="totalGetScore != null ">
+    		AND a.total_get_score = #{totalGetScore}
+    	</if>
+		<if test="totalUseScore != null ">
+    		AND a.total_use_score = #{totalUseScore}
+    	</if>
+		<if test="openId != null and openId != ''">
+    		AND a.open_id = #{openId}
+    	</if>
+		<if test="unionId != null and unionId != ''">
+    		AND a.union_id = #{unionId}
+    	</if>
+		<if test="locked != null and locked != ''">
+    		AND a.locked = #{locked}
+    	</if>
+		<if test="loginStatus != null and loginStatus != ''">
+    		AND a.login_status = #{loginStatus}
+    	</if>
+		<if test="createDate != null ">
+    		AND a.create_date = #{createDate}
+    	</if>
+		<if test="updateDate != null ">
+    		AND a.update_date = #{updateDate}
+    	</if>
+	    <if test="createDateStart != null  and createDateEnd != null ">
+    		AND a.create_date BETWEEN #{createDateStart} AND #{createDateEnd}
+    	</if>
+    	<if test="updateDateStart != null  and updateDateEnd != null ">
+    		AND a.update_date BETWEEN #{updateDateStart} AND #{updateDateEnd}
+    	</if>
+    </sql>
+    
+    <insert id="insert">
+		INSERT INTO ywym_user(
+		    			id,
+			username,
+			gender,
+			password,
+			phone,
+			nickname,
+			head_img,
+			password_pay,
+			score,
+			total_get_score,
+			total_use_score,
+			open_id,
+			union_id,
+			locked,
+			login_status,
+			create_date,
+			update_date
+		) VALUES (
+		            	#{id},
+        	#{username},
+        	#{gender},
+        	#{password},
+        	#{phone},
+        	#{nickname},
+        	#{headImg},
+        	#{passwordPay},
+        	#{score},
+        	#{totalGetScore},
+        	#{totalUseScore},
+        	#{openId},
+        	#{unionId},
+        	#{locked},
+        	#{loginStatus},
+        	#{createDate},
+        	#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ywym_user SET 	
+		    			username = #{username},
+			gender = #{gender},
+			password = #{password},
+			phone = #{phone},
+			nickname = #{nickname},
+			head_img = #{headImg},
+			password_pay = #{passwordPay},
+			score = #{score},
+			total_get_score = #{totalGetScore},
+			total_use_score = #{totalUseScore},
+			open_id = #{openId},
+			union_id = #{unionId},
+			locked = #{locked},
+			login_status = #{loginStatus},
+			create_date = #{createDate},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+ 	
+ 	<update id="delete">
+		DELETE FROM ywym_user
+		WHERE id = #{id}
+	</update>
+	
+	<update id="exec">
+		${sql }
+	</update>
+	
+	<select id="getCount" resultType="Integer">
+		SELECT 
+			count(1) 
+		FROM 
+			<include refid="fromTable"/>
+		<where>
+			<include refid="whereSQL"/>
+		</where>
+	</select>
+    
+</mapper>

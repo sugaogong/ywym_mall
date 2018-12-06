@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.dao.YwymGoodsDao">
+
+	<sql id="tableColumns">
+			a.id AS "id",
+		a.catlog_id AS "catlogId",
+		a.type AS "type",
+		a.name AS "name",
+		a.old_score AS "oldScore",
+		a.now_score AS "nowScore",
+		a.price AS "price",
+		a.ref_price AS "refPrice",
+		a.stock AS "stock",
+		a.warn_stock AS "warnStock",
+		a.spec AS "spec",
+		a.icon AS "icon",
+		a.img AS "img",
+		a.details AS "details",
+		a.is_index AS "isIndex",
+		a.is_shelve AS "isShelve",
+		a.sale_num AS "saleNum",
+		a.rank AS "rank",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fromTable">
+		`ywym_goods` a 
+	</sql>
+	
+	<select id="get" resultType="YwymGoods">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_goods` a 
+		WHERE a.id = #{id}
+	</select>
+
+
+    <select id="getForUpdate" resultType="YwymGoods">
+        SELECT
+        <include refid="tableColumns"/>
+        FROM
+        `ywym_goods` a
+        WHERE a.id = #{id} FOR UPDATE
+    </select>
+
+	
+	<select id="getBy" resultType="YwymGoods">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_goods` a 
+		WHERE a.${column} = #{value}
+	</select>
+	
+	<select id="fromTable" resultType="YwymGoods">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_goods` a ${sql }
+	</select>
+	
+	<select id="findListSQL" resultType="java.util.HashMap">
+		${sql }
+	</select>
+	
+    <select id="findList" resultType="YwymGoods">
+        SELECT 
+	        <include refid="tableColumns"/>
+        FROM 
+        	<include refid="fromTable"/>
+        <where>
+        	<include refid="whereSQL"/>
+        </where>
+        <choose>
+			<when test="orderBy != null and orderBy != ''">
+				ORDER BY ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+        <if test="first != null and max != null">
+			LIMIT #{first},#{max}
+		</if>
+    </select>
+    
+    <sql id="whereSQL">
+		<if test="keyword != null and keyword != ''">
+			AND a.name LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="catlogId != null and catlogId != ''">
+    		AND a.catlog_id = #{catlogId}
+    	</if>
+		<if test="type != null and type != ''">
+    		AND a.type = #{type}
+    	</if>
+		<if test="name != null and name != ''">
+    		AND a.name LIKE CONCAT('%', #{name}, '%')
+    	</if>
+		<if test="oldScore != null ">
+    		AND a.old_score = #{oldScore}
+    	</if>
+		<if test="nowScore != null ">
+    		AND a.now_score = #{nowScore}
+    	</if>
+		<if test="price != null ">
+    		AND a.price = #{price}
+    	</if>
+		<if test="refPrice != null ">
+    		AND a.ref_price = #{refPrice}
+    	</if>
+		<if test="stock != null ">
+    		AND a.stock = #{stock}
+    	</if>
+		<if test="warnStock != null ">
+    		AND a.warn_stock = #{warnStock}
+    	</if>
+		<if test="spec != null and spec != ''">
+    		AND a.spec = #{spec}
+    	</if>
+		<if test="icon != null and icon != ''">
+    		AND a.icon = #{icon}
+    	</if>
+		<if test="img != null and img != ''">
+    		AND a.img = #{img}
+    	</if>
+		<if test="details != null and details != ''">
+    		AND a.details = #{details}
+    	</if>
+		<if test="isShelve != null and isShelve != ''">
+    		AND a.is_shelve = #{isShelve}
+    	</if>
+		<if test="isIndex != null and isIndex != ''">
+    		AND a.is_index = #{isIndex}
+    	</if>
+		<if test="rank != null and rank != ''">
+    		AND a.rank = #{rank}
+    	</if>
+		<if test="saleNum != null ">
+    		AND a.sale_num = #{saleNum}
+    	</if>
+		<if test="createDate != null ">
+    		AND a.create_date = #{createDate}
+    	</if>
+		<if test="updateDate != null ">
+    		AND a.update_date = #{updateDate}
+    	</if>
+	    <if test="createDateStart != null  and createDateEnd != null ">
+    		AND a.create_date BETWEEN #{createDateStart} AND #{createDateEnd}
+    	</if>
+    	<if test="updateDateStart != null  and updateDateEnd != null ">
+    		AND a.update_date BETWEEN #{updateDateStart} AND #{updateDateEnd}
+    	</if>
+    </sql>
+    
+    <insert id="insert">
+		INSERT INTO ywym_goods(
+		    			id,
+			catlog_id,
+			type,
+			name,
+			old_score,
+			now_score,
+			price,
+			ref_price,
+			stock,
+			warn_stock,
+			spec,
+			icon,
+			img,
+			details,
+			is_shelve,
+			is_index,
+			sale_num,
+			rank,
+			create_date,
+			update_date
+		) VALUES (
+		            	#{id},
+        	#{catlogId},
+        	#{type},
+        	#{name},
+        	#{oldScore},
+        	#{nowScore},
+        	#{price},
+        	#{refPrice},
+        	#{stock},
+        	#{warnStock},
+        	#{spec},
+        	#{icon},
+        	#{img},
+        	#{details},
+        	#{isShelve},
+        	#{isIndex},
+        	#{saleNum},
+        	#{rank},
+        	#{createDate},
+        	#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ywym_goods SET 	
+		    			catlog_id = #{catlogId},
+			type = #{type},
+			name = #{name},
+			old_score = #{oldScore},
+			now_score = #{nowScore},
+			price = #{price},
+			ref_price = #{refPrice},
+			stock = #{stock},
+			warn_stock = #{warnStock},
+			spec = #{spec},
+			icon = #{icon},
+			img = #{img},
+			details = #{details},
+			is_shelve = #{isShelve},
+			is_index = #{isIndex},
+			sale_num = #{saleNum},
+			rank = #{rank},
+			create_date = #{createDate},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+ 	
+ 	<update id="delete">
+		DELETE FROM ywym_goods
+		WHERE id = #{id}
+	</update>
+	
+	<update id="exec">
+		${sql }
+	</update>
+	
+	<select id="getCount" resultType="Integer">
+		SELECT 
+			count(1) 
+		FROM 
+			<include refid="fromTable"/>
+		<where>
+			<include refid="whereSQL"/>
+		</where>
+	</select>
+    
+</mapper>

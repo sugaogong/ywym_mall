@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.dao.YwymBannerDao">
+
+	<sql id="tableColumns">
+			a.id AS "id",
+		a.title AS "title",
+		a.img AS "img",
+		a.link AS "link",
+		a.status AS "status",
+		a.type AS "type",
+		a.object_id AS "objectId",
+		a.rank AS "rank",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="fromTable">
+		`ywym_banner` a 
+	</sql>
+	
+	<select id="get" resultType="YwymBanner">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_banner` a 
+		WHERE a.id = #{id}
+	</select>
+
+
+    <select id="getForUpdate" resultType="YwymBanner">
+        SELECT
+        <include refid="tableColumns"/>
+        FROM
+        `ywym_banner` a
+        WHERE a.id = #{id} FOR UPDATE
+    </select>
+
+	
+	<select id="getBy" resultType="YwymBanner">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_banner` a 
+		WHERE a.${column} = #{value}
+	</select>
+	
+	<select id="fromTable" resultType="YwymBanner">
+		SELECT 
+			<include refid="tableColumns"/>
+		FROM 
+			`ywym_banner` a ${sql }
+	</select>
+	
+	<select id="findListSQL" resultType="java.util.HashMap">
+		${sql }
+	</select>
+	
+    <select id="findList" resultType="YwymBanner">
+        SELECT 
+	        <include refid="tableColumns"/>
+        FROM 
+        	<include refid="fromTable"/>
+        <where>
+        	<include refid="whereSQL"/>
+        </where>
+        <choose>
+			<when test="orderBy != null and orderBy != ''">
+				ORDER BY ${orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date DESC
+			</otherwise>
+		</choose>
+        <if test="first != null and max != null">
+			LIMIT #{first},#{max}
+		</if>
+    </select>
+    
+    <sql id="whereSQL">
+		<if test="title != null and title != ''">
+    		AND a.title = #{title}
+    	</if>
+		<if test="type != null and type != ''">
+    		AND a.type = #{type}
+    	</if>
+		<if test="img != null and img != ''">
+    		AND a.img = #{img}
+    	</if>
+		<if test="link != null and link != ''">
+    		AND a.link = #{link}
+    	</if>
+		<if test="objectId != null and objectId != ''">
+    		AND a.object_id = #{objectId}
+    	</if>
+		<if test="status != null and status != ''">
+    		AND a.status = #{status}
+    	</if>
+		<if test="rank != null and rank != ''">
+    		AND a.rank = #{rank}
+    	</if>
+		<if test="createDate != null ">
+    		AND a.create_date = #{createDate}
+    	</if>
+		<if test="updateDate != null ">
+    		AND a.update_date = #{updateDate}
+    	</if>
+	    <if test="createDateStart != null  and createDateEnd != null ">
+    		AND a.create_date BETWEEN #{createDateStart} AND #{createDateEnd}
+    	</if>
+    	<if test="updateDateStart != null  and updateDateEnd != null ">
+    		AND a.update_date BETWEEN #{updateDateStart} AND #{updateDateEnd}
+    	</if>
+    </sql>
+    
+    <insert id="insert">
+		INSERT INTO ywym_banner(
+		    			id,
+			type,
+			title,
+			img,
+			link,
+			object_id,
+			status,
+			rank,
+			create_date,
+			update_date
+		) VALUES (
+		            	#{id},
+        	#{type},
+        	#{title},
+        	#{img},
+        	#{link},
+        	#{objectId},
+        	#{status},
+        	#{rank},
+        	#{createDate},
+        	#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ywym_banner SET 	
+		    title = #{title},
+			type = #{type},
+			img = #{img},
+			link = #{link},
+			object_id = #{objectId},
+			status = #{status},
+			rank = #{rank},
+			create_date = #{createDate},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+ 	
+ 	<update id="delete">
+		DELETE FROM ywym_banner
+		WHERE id = #{id}
+	</update>
+	
+	<update id="exec">
+		${sql }
+	</update>
+	
+	<select id="getCount" resultType="Integer">
+		SELECT 
+			count(1) 
+		FROM 
+			<include refid="fromTable"/>
+		<where>
+			<include refid="whereSQL"/>
+		</where>
+	</select>
+    
+</mapper>

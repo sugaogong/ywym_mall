@@ -1,9 +1,9 @@
-Î¢ĞÅ¹«ÖÚºÅÓà¶îÌáĞÑ ÓòÃû hbaseÓ¦¼± mysqlËÀËø ·şÎñÆ÷Äê·Ñ
-vim µ×²¿²éÕÒ,Ã»¿Õ¸ñ  £¨:1?XXX£©
-nginx ÖØĞ´rewrite ^(.*)$  http://www.baidu.com permanent ;
+111å¾®ä¿¡å…¬ä¼—å·ä½™é¢æé†’ åŸŸå hbaseåº”æ€¥ mysqlæ­»é” æœåŠ¡å™¨å¹´è´¹
+vim åº•éƒ¨æŸ¥æ‰¾,æ²¡ç©ºæ ¼  ï¼ˆ:1?XXXï¼‰
+nginx é‡å†™rewrite ^(.*)$  http://www.baidu.com permanent ;
 
 server {
   server_name  abc.com;
   rewrite ^(.*)$ http://www.abc.com$1 permanent;
 }
-permanent´ú±í301ÓÀ¾ÃÌø×ª£¬¸ÄÎªredirectÔòÎª302ÁÙÊ±Ìø×ª¡£
+permanentä»£è¡¨301æ°¸ä¹…è·³è½¬ï¼Œæ”¹ä¸ºredirectåˆ™ä¸º302ä¸´æ—¶è·³è½¬ã€‚

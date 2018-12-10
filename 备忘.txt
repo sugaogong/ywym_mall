@@ -1,0 +1,9 @@
+微信公众号余额提醒 域名 hbase应急 mysql死锁 服务器年费
+vim 底部查找,没空格  （:1?XXX）
+nginx 重写rewrite ^(.*)$  http://www.baidu.com permanent ;
+
+server {
+  server_name  abc.com;
+  rewrite ^(.*)$ http://www.abc.com$1 permanent;
+}
+permanent代表301永久跳转，改为redirect则为302临时跳转。
